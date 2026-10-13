@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting to KoalaTalk...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0b0f14;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 36px 24px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .logo { font-size: 40px; margin-bottom: 12px; }
+        h2 { font-size: 20px; margin-bottom: 8px; }
+        p { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+        .btn {
+            display: block;
+            padding: 14px 20px;
+            background: #238636;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">🐨</div>
+        <h2 id="title">Connect on KoalaTalk</h2>
+        <p id="desc">Opening KoalaTalk to send your connection request...</p>
+        <a id="openBtn" href="#" class="btn">Open KoalaTalk</a>
+    </div>
+
+    <script>
+        const params = window.location.search;
+        const urlParams = new URLSearchParams(params);
+        const name = urlParams.get('n') || 'a contact';
+
+        document.getElementById('title').innerText = `Connect with ${name}`;
+
+        // 1. Direct App Scheme
+        const koalaUri = "koala://add" + params;
+
+        // 2. Android Chrome Intent URI (forces mobile Chrome to hand off to KoalaTalk)
+        const androidIntent = "intent://add" + params + "#Intent;scheme=koala;package=com.koalatalk;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end";
+
+        document.getElementById('openBtn').href = koalaUri;
+
+        // Auto-launch attempts:
+        window.location.href = koalaUri;
+        setTimeout(() => {
+            window.location.href = androidIntent;
+        }, 300);
+    </script>
+</body>
+</html>
